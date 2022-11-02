@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+
+    <title>Banlancing Tool</title>
+    <script type="text/javascript" src='/scripts/jquery-1.11.0.js'></script>
+    <script type="text/javascript" src='/scripts/jquery.table2excel.js'></script>
+    <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js'></script>
+    <!--    script,css-->
+    <link rel="stylesheet" href="/static/inputform.css">
+    <script type="text/javascript" src="/static/inputform.js"></script>
+
+    <!-- og tag-->
+
+    <meta property="og:title" content="Character Balancing Tool"/>
+    <meta property="og:description" content="캐릭터 밸런싱 툴"/>
+    <meta property="og:image"
+          content="https://w7.pngwing.com/pngs/158/254/png-transparent-black-crystal-illustration-light-desktop-blue-black-cyan-black-background-purple-blue-angle.png"/>
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500&display=swap');
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.5/xlsx.full.min.js"></script>
+<body>
+
+
+<!-- multistep form -->
+<form id="msform">
+    <!-- progressbar -->
+    <div id="progressbar">
+        <li class="active" style="font-weight: bold">Start</li>
+        <li style="font-weight: bold">Profile, Atk</li>
+        <li style="font-weight: bold">Def, Critical, Speed etc</li>
+        <li style="font-weight: bold">Download</li>
+    </div>
+    <!-- fieldset -->
+    <fieldset>
+        <h2 class="fs-title">Start</h2>
+        <h3 class="fs-subtitle">Upload the file on which this tool is based</h3>
+        <div class="fileup">
+
+<div class="file-upload">
+
+  <div class="image-upload-wrap">
+    <input class="file-upload-input" type='file' onchange="readURL(this); readExcel(this)"/>
+    <div class="drag-text">
+      <h3>Drag and drop or select a file </h3>
+    </div>
+  </div>
+      <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add File</button>
+  <div class="file-upload-content">
+    <img class="file-upload-image" src="#" alt="your file" />
+    <div class="image-title-wrap">
+      <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
+    </div>
+
+  </div>
+</div>
+        </div>
+        <input type="button" name="next" class="next action-button" value="Next"
+               style="background-color: lightblue; border-radius: 10px"
+        />
+    </fieldset>
+    <fieldset>
+        <h2 class="fs-title">Character Banlancing Tool</h2>
+        <h3 class="fs-subtitle">Fill in the informations below</h3>
+        <div style="text-align: left">Profile</div>
+        <!-- image load -->
+        <div class="image-upload" style="border-radius: 10px">
+            <input type="file" name="" id="logo" onchange="fileValue(this)" style="border-radius: 12px">
+            <label for="logo" class="upload-field" id="file-label">
+                <div class="file-thumbnail">
+                    <img id="image-preview" src="https://www.btklsby.go.id/images/placeholder/basic.png" alt="">
+                    <h3 id="filename">
+                        Choose a file or Drag it here
+                    </h3>
+                </div>
+            </label>
+        </div>
+        <!-- upload file-->
+        <!-- character name -->
+        <input type="text" id="nname" name="name" placeholder="Character Name"/>
+        <!-- character class -->
+        <select id="cclas" name="class" id="Character" style="border-radius: 10px">
+            <option value="">Character Class</option>
+            <option value="Warrior">Warrior</option>
+            <option value="Martial Artist">Martial Artist</option>
+            <option value="Gunner">Gunner</option>
+            <option value="Mage">Mage</option>
+            <option value="Assassin">Assassin</option>
+            <option value="Specialist">Specialist</option>
+        </select>
+        <div style="text-align: left">Attack</div>
+        <!-- min attack -->
+        <input type="text" id="minAtk" name="minAtk" placeholder="Min Damage"/>
+        <!-- max attack -->
+        <input type="text" id="maxdmg" name="maxAtk" placeholder="Max Damage" onchange="AvDmg()"/>
+        <!-- str attack / max와 min의 평균값-->
+        <input type="text" id="str" name="str" placeholder="Original Damage" />
+        <!--      <input type=text" name="critical" placeholder="Confirm Password" />-->
+                <input type="button" name="previous" class="previous action-button" value="Previous"
+               style="background-color: lightblue; border-radius: 10px"/>
+        <input type="button" name="next" class="next action-button" value="Next"
+               style="background-color: lightblue; border-radius: 10px"
+        />
+    </fieldset>
+
+    <fieldset>
+        <div style="text-align: left">Defense</div>
+        <!-- def -->
+        <input type="text" id="def" name="def" placeholder="Defense"/>
+
+        <div style="text-align: left">Critical Hit</div>
+        <!-- critical -->
+        <input type=text" id="ctk" name="critical" placeholder="Critical Hit"/>
+
+        <div style="text-align: left">Move Speed</div>
+        <!-- move speed -->
+        <input type=text" id="msp" name="movespeed" placeholder="Move Speed"/>
+
+        <div style="text-align: left">Weapon</div>
+        <!-- weapon -->
+        <select name="weapon" id="weapon" style="border-radius: 10px" onchange="chageLangSelect()">
+            <option value="Weapon Type">Weapon Type</option>
+            <option value="Sword">Sword</option>
+            <option value="Bow">Bow</option>
+            <option value="Wand">Wand</option>
+            <option value="Ax">Ax</option>
+        </select>
+        <div style="text-align: left">Damage Formula</div>
+        <!-- formula -->
+        <select name="formula" id="formula" style="border-radius: 10px">
+            <option value="">Damage Formula</option>
+            <option value="tree">Tree Formula</option>
+            <option value="basic">Basic Formula</option>
+        </select>
+
+        <input type="button" name="previous" class="previous action-button" value="Previous"
+               style="background-color: lightblue; border-radius: 10px"/>
+        <input type="button" name="next" class="next action-button" value="Next"
+               style="background-color: lightblue;border-radius: 10px" onclick="tableadd()"
+        />
+    </fieldset>
+    <fieldset style="margin-left: -300px; width:250%">
+        <h2 class="fs-title">Export Excel</h2>
+        <h3 class="fs-subtitle">Check if the information is different</h3>
+        <table id="TableToExcel" style="margin-left:-3px; font-size:15px" border=2 width=710 cellpadding=0 cellspacing=0 class='table table-bordered' align=center style='border-collapse:collapse;' >
+    <thead>
+        <tr>
+            <td>id</td>
+            <td>Name</td>
+            <td>Class</td>
+            <td>minDamage</td>
+            <td>maxDamage</td>
+            <td>oriDamage</td>
+             <td>Def</td>
+            <td>Critical</td>
+            <td>moveSpeed</td>
+            <td>Weapon</td>
+            <td>Formula</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr id="check_submit">
+<!--            <td>1</td>-->
+<!--            <td>1</td>-->
+<!--            <td>1</td>-->
+        </tr>
+    </tbody>
+</table>
+<iframe id="txtArea1" style="display:none"></iframe>
+<!-- IE 호환을 위해서 iframe을 추가해야한다 -->
+<!-- IE에서는 txtArea1 의 객체를 찾기 때문이다. 크롬은 없어도 된다. 있어도 상관은 없다. -->
+
+                <input type="button" name="previous" class="previous action-button" value="Previous"
+               style="background-color: lightblue; border-radius: 10px"/>
+        <input type="submit" name="submit" class="submit action-button" style="background-color: deepskyblue" value="Download" onclick="ReportToExcelConverter()"/>
+    </fieldset>
+</form>
+
+</body>
+<script>
+	function ReportToExcelConverter() {
+		$("#TableToExcel").table2excel({
+			exclude: ".noExl",
+			name: "Excel Document Name",
+			filename: "report" +'.xls', //확장자를 여기서 붙여줘야한다.
+			fileext: ".xls",
+			exclude_img: true,
+			exclude_links: true,
+			exclude_inputs: true
+		});
+	};
+</script>
+</html>
